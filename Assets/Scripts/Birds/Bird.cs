@@ -8,13 +8,10 @@ public abstract class Bird : MonoBehaviour
 {
     [Header("Bird settings")]
     [SerializeField][Range(1, 10)] private float mass;
+    [SerializeField] private FlightSettings flightSettings;
 
-
-    [Header("Flight settings")]
-    [SerializeField] private float minPull;
-    [SerializeField] private float maxPull;
-    [SerializeField] private float acceleration;
-    [SerializeField] private float gravityMod;
+    public delegate void BirdDestroyed();
+    public static event BirdDestroyed OnBirdDestroyed;
 
     private Touch touch;
     private Vector3 startDragPosition;
@@ -60,7 +57,7 @@ public abstract class Bird : MonoBehaviour
             if (isSkillReady && touch.phase == TouchPhase.Began)
             {
                 isSkillReady = false;
-                Skill();
+                Ability();
             }
         }
         else
@@ -101,7 +98,7 @@ public abstract class Bird : MonoBehaviour
     private void Drag()
     {
         Vector3 dragDirection = startDragPosition - Camera.main.ScreenToWorldPoint(touch.position);
-        shotPull = Mathf.Clamp(Mathf.Abs(dragDirection.y) + dragDirection.x, minPull, maxPull);
+        shotPull = Mathf.Clamp(Mathf.Abs(dragDirection.y) + dragDirection.x, flightSettings.minPull, flightSettings.maxPull);
         shotDirection = dragDirection.normalized;
         //отвести от точки и вращать вокруг неё
 
@@ -124,8 +121,8 @@ public abstract class Bird : MonoBehaviour
 
     protected Vector3 GetNextPointShift(ref Vector3 direction)
     {
-        direction.y += Time.fixedDeltaTime * -gravityMod * acceleration;
-        return direction * Time.fixedDeltaTime * acceleration * shotPull * 100f;
+        direction.y += Time.fixedDeltaTime * -flightSettings.gravityMod * flightSettings.acceleration;
+        return direction * Time.fixedDeltaTime * flightSettings.acceleration * shotPull * 100f;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -133,7 +130,16 @@ public abstract class Bird : MonoBehaviour
         if (isDestroyed) return;
         isDestroyed = true;
         rb.gravityScale = 1;
+
+        StartCoroutine("DestroyTimer");
     }
 
-    protected abstract void Skill();
+    private IEnumerator DestroyTimer()
+    {
+        yield return new WaitForSeconds(3);
+        OnBirdDestroyed?.Invoke();
+        Destroy(gameObject);
+    }
+
+    protected abstract void Ability();
 }
