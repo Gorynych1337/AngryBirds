@@ -10,7 +10,7 @@ public class WinLose : MonoBehaviour
     {
         enemies = new List<GameObject>(GameObject.FindGameObjectsWithTag("Enemy"));
         Enemy.OnEnemyDestroyed += DeleteEnemy;
-        BirdQueue.OnQueueEnded += () => EndGame(true);
+        BirdQueue.OnQueueEnded += () => EndGame(false);
     }
 
     private void OnDisable()
@@ -29,7 +29,7 @@ public class WinLose : MonoBehaviour
 
         if (enemies.Count == 0)
         {
-            EndGame(false);
+            EndGame(true);
         }
     }
 }

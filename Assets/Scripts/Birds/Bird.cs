@@ -53,7 +53,6 @@ public abstract class Bird : MonoBehaviour
 
         if (isFlight)
         {
-            Flight();
             if (isSkillReady && touch.phase == TouchPhase.Began)
             {
                 isSkillReady = false;
@@ -70,6 +69,11 @@ public abstract class Bird : MonoBehaviour
                 default: break;
             }
         }
+    }
+
+    private void FixedUpdate()
+    {
+        if (isFlight) Flight();
     }
 
     private bool UITouchCheck(Touch touch)

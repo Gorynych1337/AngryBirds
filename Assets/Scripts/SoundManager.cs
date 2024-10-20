@@ -18,8 +18,8 @@ public class SoundManager
 
     public SoundManager()
     {
-        musicVolume = PlayerPrefs.GetFloat(musicKey);
-        soundVolume = PlayerPrefs.GetFloat(soundKey);
+        musicVolume = PlayerPrefs.GetFloat(musicKey, 1f);
+        soundVolume = PlayerPrefs.GetFloat(soundKey, 1f);
     }
 
     public void SetVolume(float sound, float music)

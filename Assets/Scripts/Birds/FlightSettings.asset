@@ -15,4 +15,4 @@ MonoBehaviour:
   minPull: 0
   maxPull: 3
   acceleration: 2.5
-  gravityMod: 0.13
+  gravityMod: 0.35

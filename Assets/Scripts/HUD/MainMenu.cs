@@ -6,6 +6,14 @@ public class MainMenu : MonoBehaviour
 {
     [SerializeField] GameObject levelMenu;
     [SerializeField] GameObject settingsMenu;
+    [SerializeField] GameObject googlePage;
+
+    private void Start()
+    {
+        levelMenu.SetActive(false);
+        settingsMenu.SetActive(false);
+        googlePage.SetActive(false);
+    }
 
     public void Exit()
     {
@@ -24,10 +32,12 @@ public class MainMenu : MonoBehaviour
 
     public void OpenGoogle()
     {
-        var webView = gameObject.AddComponent<UniWebView>();
-        webView.Frame = new Rect(0, 0, Screen.width, Screen.height);
-        webView.Load("https://uniwebview.com");
-        webView.Show();
+        googlePage.SetActive(true);
+    }
+
+    public void CloseGoogle()
+    {
+        googlePage.SetActive(false);
     }
 
     public void OpenSettings()
