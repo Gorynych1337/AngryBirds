@@ -6,6 +6,9 @@ public class WinLose : MonoBehaviour
 {
     List<GameObject> enemies;
 
+    public delegate void GameEndDelegate(bool isWin);
+    public static event GameEndDelegate OnGameEnd;
+
     private void Awake()
     {
         enemies = new List<GameObject>(GameObject.FindGameObjectsWithTag("Enemy"));
@@ -20,7 +23,7 @@ public class WinLose : MonoBehaviour
 
     private void EndGame(bool isWin)
     {
-        Debug.Log(isWin ? "You win" : "You lose");
+        OnGameEnd?.Invoke(isWin);
     }
 
     private void DeleteEnemy(GameObject enemy)

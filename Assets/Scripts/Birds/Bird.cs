@@ -132,6 +132,7 @@ public abstract class Bird : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (isDestroyed) return;
+        isFlight = false;
         isDestroyed = true;
         rb.gravityScale = 1;
 

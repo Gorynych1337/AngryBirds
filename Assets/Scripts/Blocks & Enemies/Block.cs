@@ -29,7 +29,7 @@ public class Block : MonoBehaviour
 
         if (hitRb == null && collision.gameObject.tag != "Ground") return;
 
-        Vector2 hitImpuls = collision.relativeVelocity * rb.mass;
+        Vector2 hitImpuls = collision.relativeVelocity;
 
         if (hitRb != null)
         {

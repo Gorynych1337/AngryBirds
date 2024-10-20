@@ -7,19 +7,25 @@ using UnityEngine.SceneManagement;
 public class Hud : MonoBehaviour
 {
     [SerializeField] private GameObject pauseMenu;
+    [SerializeField] private GameObject endGameMenu;
     [SerializeField] private TMP_Text scoreText;
     [SerializeField] private string scoreTemplate;
 
     private void Start()
     {
         pauseMenu.SetActive(false);
+        endGameMenu.SetActive(false);
+
         ScoreSystem.OnScoreChanged += ChangeScoreText;
+        WinLose.OnGameEnd += OpenEndGamePage;
+
         ChangeScoreText(0);
     }
 
     private void OnDisable()
     {
         ScoreSystem.OnScoreChanged -= ChangeScoreText;
+        WinLose.OnGameEnd -= OpenEndGamePage;
     }
 
     private void ChangeScoreText(int score)
@@ -48,5 +54,11 @@ public class Hud : MonoBehaviour
     public void RestartLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    private void OpenEndGamePage(bool isWin)
+    {
+        endGameMenu.SetActive(true);
+        endGameMenu.GetComponent<WinLosePage>().Instantiate(isWin);
     }
 }
