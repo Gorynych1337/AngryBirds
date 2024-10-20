@@ -42,6 +42,7 @@ public class Hud : MonoBehaviour
     public void ToMainMenuClick()
     {
         SceneManager.LoadScene(0);
+        Time.timeScale = 1.0f;
     }
 
     public void RestartLevel()
