@@ -23,6 +23,11 @@ public class Block : MonoBehaviour
         isDestroyed = false;
     }
 
+    private void Update()
+    {
+        if (transform.position.y < -15f) Destroy();
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         Rigidbody2D hitRb = collision.transform.GetComponent<Rigidbody2D>();

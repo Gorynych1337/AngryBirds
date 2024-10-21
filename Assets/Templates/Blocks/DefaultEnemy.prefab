@@ -47,9 +47,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32dc6859efb1e1a4fbb74cb0b7779747, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 10
+  maxHP: 30
   mass: 1
   score: 5000
+  pigDieSound: {fileID: 11400000, guid: 2bd275be05368b341bd5f79e84182924, type: 2}
 --- !u!50 &6564209753466619204
 Rigidbody2D:
   serializedVersion: 4

@@ -25,7 +25,7 @@ public class AnchorGameObject : MonoBehaviour
     IEnumerator updateAnchorRoutine; //Coroutine handle so we don't start it if it's already running
 
     // Use this for initialization
-    void Start()
+    void Awake()
     {
         updateAnchorRoutine = UpdateAnchorAsync();
         StartCoroutine(updateAnchorRoutine);

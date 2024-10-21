@@ -15,7 +15,7 @@ public class BirdQueue : MonoBehaviour
     public delegate void QueueEnded();
     public static event QueueEnded OnQueueEnded;
 
-    private void Awake()
+    private void Start()
     {
         birdsQueue = new Queue<GameObject>();
 

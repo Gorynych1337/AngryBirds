@@ -49,6 +49,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mass: 3
   flightSettings: {fileID: 11400000, guid: 4e31d01e13bf3244894380386d8ba223, type: 2}
+  birdLaugh: {fileID: 11400000, guid: 321614583c8db6241a0208e3ca678b66, type: 2}
 --- !u!50 &4784336177584631503
 Rigidbody2D:
   serializedVersion: 4

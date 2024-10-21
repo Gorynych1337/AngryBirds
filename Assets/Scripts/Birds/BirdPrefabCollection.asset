@@ -13,4 +13,6 @@ MonoBehaviour:
   m_Name: BirdPrefabCollection
   m_EditorClassIdentifier: 
   defaultBirdPrefab: {fileID: 5346059803539654940, guid: ede5d4d923c988f4eaeca9d199da23f3, type: 3}
+  speedBirdPrefab: {fileID: 5346059803539654940, guid: a71d6284b5b0a93429982e7da36621de, type: 3}
+  boomBirdPrefab: {fileID: 5346059803539654940, guid: 919453368f9291341af05f0dc046d1c3, type: 3}
   debugBirdPrefab: {fileID: 5346059803539654940, guid: 2b68cca87a2e020498a8acd785f94429, type: 3}

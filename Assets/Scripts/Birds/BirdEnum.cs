@@ -6,12 +6,16 @@ using UnityEngine;
 public class BirdEnum : ScriptableObject
 {
     [SerializeField] private GameObject defaultBirdPrefab;
+    [SerializeField] private GameObject speedBirdPrefab;
+    [SerializeField] private GameObject boomBirdPrefab;
     [SerializeField] private GameObject debugBirdPrefab;
 
     public enum Birds
     {
         defaultBird,
-        debug,
+        speedBird,
+        boomBird,
+        debug
     }
 
     public GameObject GetBirdPrefab(Birds bird)
@@ -19,6 +23,8 @@ public class BirdEnum : ScriptableObject
         switch (bird)
         {
             case Birds.defaultBird: return defaultBirdPrefab;
+            case Birds.speedBird: return speedBirdPrefab;
+            case Birds.boomBird: return boomBirdPrefab;
             case Birds.debug: return debugBirdPrefab;
             default: return defaultBirdPrefab;
         }

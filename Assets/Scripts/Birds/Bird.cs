@@ -9,12 +9,17 @@ public abstract class Bird : MonoBehaviour
     [Header("Bird settings")]
     [SerializeField][Range(1, 10)] private float mass;
     [SerializeField] private FlightSettings flightSettings;
+    [SerializeField] private SoundsPreset birdLaugh;
+
+    protected float acceleration;
+    protected float gravityMod;
 
     public delegate void BirdDestroyed();
     public static event BirdDestroyed OnBirdDestroyed;
 
     private Touch touch;
     private Vector3 startDragPosition;
+    private Vector3 startBirdPosition;
     private Vector3 shotDirection;
     private float shotPull;
     //private PathDrawer pathDrawer;
@@ -26,9 +31,11 @@ public abstract class Bird : MonoBehaviour
 
     private Rigidbody2D rb;
 
-    public void Instantiate()
+    public virtual void Instantiate()
     {
-        //pathDrawer = GetComponent<PathDrawer>();
+        acceleration = flightSettings.acceleration;
+        gravityMod = flightSettings.gravityMod;
+
         isFlight = false;
         isDestroyed = false;
         isSkillReady = true;
@@ -39,12 +46,12 @@ public abstract class Bird : MonoBehaviour
         GetComponent<Collider2D>().enabled = false;
     }
 
-    private void Awake()
+    protected virtual void Awake()
     {
         Instantiate();
     }
 
-    void Update()
+    protected virtual void Update()
     {
         if (isDestroyed) return;
 
@@ -71,7 +78,7 @@ public abstract class Bird : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         if (isFlight) Flight();
     }
@@ -97,6 +104,7 @@ public abstract class Bird : MonoBehaviour
     private void Touch()
     {
         startDragPosition = Camera.main.ScreenToWorldPoint(touch.position);
+        startBirdPosition = transform.position;
     }
 
     private void Drag()
@@ -104,9 +112,8 @@ public abstract class Bird : MonoBehaviour
         Vector3 dragDirection = startDragPosition - Camera.main.ScreenToWorldPoint(touch.position);
         shotPull = Mathf.Clamp(Mathf.Abs(dragDirection.y) + dragDirection.x, flightSettings.minPull, flightSettings.maxPull);
         shotDirection = dragDirection.normalized;
-        //отвести от точки и вращать вокруг неё
 
-        //if (shotPull > 0f) pathDrawer.Draw(shotDirection, shotPull >= maxShotPull, spreadAngle);
+        transform.position = startBirdPosition - shotDirection * shotPull;
     }
 
     private void Release()
@@ -116,6 +123,8 @@ public abstract class Bird : MonoBehaviour
         rb.bodyType = RigidbodyType2D.Dynamic;
         GetComponent<Collider2D>().enabled = true;
         isFlight = true;
+
+        SoundManager.Instance.PlaySound(birdLaugh.GetClip());
     }
 
     private void Flight()
@@ -123,13 +132,13 @@ public abstract class Bird : MonoBehaviour
         rb.velocity = GetNextPointShift(ref shotDirection);
     }
 
-    protected Vector3 GetNextPointShift(ref Vector3 direction)
+    protected virtual Vector3 GetNextPointShift(ref Vector3 direction)
     {
-        direction.y += Time.fixedDeltaTime * -flightSettings.gravityMod * flightSettings.acceleration;
-        return direction * Time.fixedDeltaTime * flightSettings.acceleration * shotPull * 100f;
+        direction.y += Time.fixedDeltaTime * -gravityMod;
+        return direction * Time.fixedDeltaTime * acceleration * shotPull * 100f;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    protected virtual void OnCollisionEnter2D(Collision2D collision)
     {
         if (isDestroyed) return;
         isFlight = false;
@@ -142,6 +151,11 @@ public abstract class Bird : MonoBehaviour
     private IEnumerator DestroyTimer()
     {
         yield return new WaitForSeconds(3);
+        Destroy();
+    }
+
+    protected virtual void Destroy()
+    {
         OnBirdDestroyed?.Invoke();
         Destroy(gameObject);
     }

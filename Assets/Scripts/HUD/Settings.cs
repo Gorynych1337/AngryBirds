@@ -10,13 +10,13 @@ public class Settings : MonoBehaviour
 
     private void OnEnable()
     {
-        musicSlider.value = SoundManager.Instance.Value.MusicVolume;
-        soundsSlider.value = SoundManager.Instance.Value.SoundVolume;
+        musicSlider.value = SoundManager.Instance.MusicVolume;
+        soundsSlider.value = SoundManager.Instance.SoundVolume;
     }
 
     public void SaveSettings()
     {
-        SoundManager.Instance.Value.SetVolume(soundsSlider.value, musicSlider.value);
+        SoundManager.Instance.SaveVolume(soundsSlider.value, musicSlider.value);
         gameObject.SetActive(false);
     }
 }
